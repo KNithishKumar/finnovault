@@ -2,8 +2,6 @@ const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
 const Budget = require("../models/Budget");
 const Notification = require("../models/Notification");
-
-const { scanReceiptMock } = require("../services/ocrService");
 const { formatCurrency } = require("../utils/currency");
 
 
@@ -730,50 +728,6 @@ const deleteTransaction = async (
   }
 };
 
-
-// ============================================================
-// OCR Receipt Scanner
-// ============================================================
-// @desc    OCR receipt scanner upload and parse
-// @route   POST /api/v1/transactions/receipt-ocr
-// @access  Private
-const ocrReceiptUpload = async (
-  req,
-  res,
-  next
-) => {
-  try {
-
-    if (!req.file) {
-      res.status(400);
-      throw new Error(
-        "Please upload an image file"
-      );
-    }
-
-
-    const parsedData =
-      scanReceiptMock(
-        req.file.path,
-        req.file.originalname
-      );
-
-
-    res.json({
-      success: true,
-      message:
-        "Receipt parsed successfully",
-      data: parsedData,
-      attachmentPath:
-        `/uploads/${req.file.filename}`,
-    });
-
-  } catch (error) {
-    next(error);
-  }
-};
-
-
 // ============================================================
 // Export Controllers
 // ============================================================
@@ -783,5 +737,4 @@ module.exports = {
   createTransaction,
   updateTransaction,
   deleteTransaction,
-  ocrReceiptUpload,
 };

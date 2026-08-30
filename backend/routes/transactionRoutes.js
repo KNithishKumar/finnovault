@@ -20,6 +20,4 @@ router.route('/:id')
   .put(upload.single('attachment'), updateTransaction)
   .delete(deleteTransaction);
 
-router.post('/receipt-ocr', upload.single('attachment'), ocrReceiptUpload);
-
 module.exports = router;
